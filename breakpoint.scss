@@ -1,0 +1,33 @@
+$breakpoints: (
+        'xsmall': (min-width: 370px),
+        'small': (min-width: 767px),
+        'medium': (min-width: 992px),
+        'large': (min-width: 1200px),
+        'xlarge': (min-width: 1600px),
+) !default;
+
+/**
+ * Mixin to check for matching breakpoint by name
+ * @author Alexander Letnikow
+ * @param {String} $breakpoint
+ * @require {Object} $breakpoints
+ */
+@mixin match($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint name to match `#{$breakpoint}`. Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}
+
+@mixin not-match($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media not all and #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  } @else {
+    @error "Unknown breakpoint name to match `#{$breakpoint}`. Available breakpoints are: #{map-keys($breakpoints)}.";
+  }
+}
